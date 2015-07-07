@@ -9,10 +9,9 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.TypedValue;
-import android.view.View;
-import android.widget.CompoundButton;
+import android.widget.RadioButton;
 
-class TabItem extends CompoundButton implements android.widget.CompoundButton.OnCheckedChangeListener {
+class TabItem extends RadioButton {
 	
 	public static final int STATE_UNCHECKED = 0;	
 	public static final int STATE_CHECKED = 1;
@@ -21,19 +20,18 @@ class TabItem extends CompoundButton implements android.widget.CompoundButton.On
 	public static final int POSITION_MIDDLE = 1;
 	public static final int POSITION_RIGHT = 2;
 	
-	private static final int DEFAULT_TEXT_SIZE = 16;
+	private static final int DEFAULT_TEXT_SIZE = 14;
 	
 	private int mItemColorUnchecked;
 	private int mItemColorChecked;
 	
-	private int mState = STATE_UNCHECKED;
 	
 	private int mPosition = POSITION_MIDDLE;
 	
 	private int mHorizontalPadding;
 	private int mVerticalPadding;
 	
-	private Paint mBackgroundPaint = new Paint();
+	private Paint mBackgroundPaint;
 	
 	private Path mLeftItemPath;
 	private Path mRightItemPath;
@@ -52,20 +50,23 @@ class TabItem extends CompoundButton implements android.widget.CompoundButton.On
 	}
 	
 	private void init() {
+		setClickable(true);
 		setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_TEXT_SIZE);
 		
 		mHorizontalPadding = getContext().getResources().getDimensionPixelSize(R.dimen.tab_item_horizontal_padding);
 		mVerticalPadding = getContext().getResources().getDimensionPixelSize(R.dimen.tab_item_vertical_padding);
 		setPadding(mHorizontalPadding, mVerticalPadding, mHorizontalPadding, mVerticalPadding);
 		
+		if (null == mBackgroundPaint) {
+			mBackgroundPaint = new Paint();
+		}
 		mBackgroundPaint.setAntiAlias(true);
-		setOnCheckedChangeListener(this);
 	}
 	
 	public void setItemColors(int uncheckedColor, int checkedColor) {
 		mItemColorUnchecked = uncheckedColor;
 		mItemColorChecked = checkedColor;
-		mBackgroundPaint.setColor(isChecked() ? checkedColor : uncheckedColor);
+		mBackgroundPaint.setColor(isChecked() ? checkedColor - 0x22000000 : uncheckedColor);
 		setTextColor(isChecked() ? uncheckedColor : checkedColor);
 	}
 	
@@ -125,9 +126,12 @@ class TabItem extends CompoundButton implements android.widget.CompoundButton.On
 	}
 
 	@Override
-	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-		if (isChecked) {
-			mBackgroundPaint.setColor(mItemColorChecked);
+	public void setChecked(boolean checked) {
+		if (null == mBackgroundPaint) {
+			mBackgroundPaint = new Paint();
+		}
+		if (checked) {
+			mBackgroundPaint.setColor(mItemColorChecked - 0x22000000);
 			setTextColor(mItemColorUnchecked);
 		} else {
 			mBackgroundPaint.setColor(mItemColorUnchecked);
@@ -135,18 +139,8 @@ class TabItem extends CompoundButton implements android.widget.CompoundButton.On
 		}
 		if (POSITION_MIDDLE == mPosition) {
 			setBackgroundColor(mBackgroundPaint.getColor());
-		} else {
-			invalidate();
 		}
+		super.setChecked(checked);
 	}
-	
-	@Override
-    public void toggle() {
-        // we override to prevent toggle when the radio is already
-        // checked (as opposed to check boxes widgets)
-        if (!isChecked()) {
-            super.toggle();
-        }
-    }
 
 }

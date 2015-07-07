@@ -219,12 +219,12 @@ public class NavigationBar extends RelativeLayout {
 		addView(mTabView, params);
 	}
 	
-	public void setTabs(String[] titles) {
-		setTabs(titles, DEFAULT_BUTTON_TEXT_COLOR, Color.WHITE);
+	public void setTabs(String[] titles, TabView.OnTabCheckedListener l) {
+		setTabs(titles, Color.WHITE, DEFAULT_BUTTON_TEXT_COLOR, l);
 	}
 	
-	public void setTabs(String[] titles, int uncheckedColor, int checkedColor) {
-		mTabView.setTabs(titles, uncheckedColor, checkedColor);
+	public void setTabs(String[] titles, int uncheckedColor, int checkedColor, TabView.OnTabCheckedListener l) {
+		mTabView.setTabs(titles, uncheckedColor, checkedColor, l);
 	}
 	
 }
