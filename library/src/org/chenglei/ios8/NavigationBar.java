@@ -17,6 +17,12 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+/**
+ * NavigationBar is a tool bar at the top of a app which copy the style of UINavigationBar of IOS 8.
+ * 
+ * @author chenglei
+ *
+ */
 public class NavigationBar extends RelativeLayout {
 	
 	private static final int DEFAULT_BUTTON_TEXT_COLOR = 0xFF007AFF;
@@ -31,16 +37,31 @@ public class NavigationBar extends RelativeLayout {
 	
 	private LinearLayout mLeftContainer;
 	private LinearLayout mRightContainer;
+	private LinearLayout mCenterContainer;
 	private TitleView mTitleView;
 	private TabView mTabView;
 	
 	private int mMaxButtonNumLeft = MAX_BUTTON_NUM_LEFT;
 	private int mMaxButtonNumRight = MAX_BUTTON_NUM_RIGHT;
 	
+	/**
+	 * The style specifies what the NavigationBar looks like.
+	 * 
+	 * @author chenglei
+	 *
+	 */
 	public static class Style {
+		/**
+		 * A title (and a subtitle) with this style will be displayed.
+		 */
 		public static final int NORMAL = 0;
+		/**
+		 * A TabView contains several TabItems with this style will be displayed.
+		 */
 		public static final int TAB = 1;
-		public static final int SEARCH = 2;
+		
+		//public static final int SEARCH = 2;
+		
 	}
 	
 	public NavigationBar(Context context) {
@@ -68,9 +89,20 @@ public class NavigationBar extends RelativeLayout {
 		mMinHeight = getContext().getResources().getDimensionPixelSize(R.dimen.min_navigation_bar_height);
 		mHorizontalPadding = getContext().getResources().getDimensionPixelSize(R.dimen.navigation_bar_horizontal_padding);
 		setMinimumHeight(mMinHeight);
+		initCenterContainer();
 		initTitleView();
 		initLeftContainer();
 		initRightContainer();
+	}
+	
+	private void initCenterContainer() {
+		mCenterContainer = new LinearLayout(getContext());
+		mCenterContainer.setGravity(Gravity.CENTER);
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.WRAP_CONTENT, 
+				RelativeLayout.LayoutParams.MATCH_PARENT);
+		params.addRule(RelativeLayout.CENTER_IN_PARENT);
+		addView(mCenterContainer, params);
 	}
 	
 	private void initLeftContainer() {
@@ -93,17 +125,21 @@ public class NavigationBar extends RelativeLayout {
 		addView(mRightContainer, params);
 	}
 	
+	/**
+	 * Set the NavigationBar style.
+	 * 
+	 * @param style See {@link NavigationBar.Style}
+	 */
 	public void setNavigationBarStyle(int style) {
 		if (mNavigationBarStyle != style) {
 			mNavigationBarStyle = style;
-			removeView(mTitleView);
 			switch (style) {
 			case Style.NORMAL:
 				initTitleView();
 				break;
-			case Style.SEARCH:
-				initSearchView();
-				break;
+//			case Style.SEARCH:
+//				initSearchView();
+//				break;
 			case Style.TAB:
 				initTabView();
 				break;
@@ -111,18 +147,44 @@ public class NavigationBar extends RelativeLayout {
 		}
 	}
 	
+	/**
+	 * Add a button with text and drawable on the left.
+	 * 
+	 * @param text
+	 * @param drawable
+	 * @param l
+	 * @return
+	 */
 	public Button addLeftButton(CharSequence text, Drawable drawable, View.OnClickListener l) {
 		return addLeftButton(text, drawable, DEFAULT_BUTTON_TEXT_COLOR, l);
 	}
 	
+	/**
+	 * Add a button with text and drawable on the right.
+	 * 
+	 * @param text
+	 * @param drawable
+	 * @param l
+	 * @return
+	 */
 	public Button addRightButton(CharSequence text, Drawable drawable, View.OnClickListener l) {
 		return addRightButton(text, drawable, DEFAULT_BUTTON_TEXT_COLOR, l);
 	}
 	
+	/**
+	 * Set the max number of left buttons. Default is 3.
+	 * 
+	 * @param num
+	 */
 	public void setMaxButtonNumLeft(int num) {
 		mMaxButtonNumLeft = num;
 	}
 	
+	/**
+	 * Set the max number of right buttons. Default is 3.
+	 * 
+	 * @param num
+	 */
 	public void setMaxButtonNumRight(int num) {
 		mMaxButtonNumRight = num;
 	}
@@ -157,6 +219,23 @@ public class NavigationBar extends RelativeLayout {
 		return rightButton;
 	}
 	
+	public void removeLeftButtons() {
+		if (mLeftContainer != null) {
+			mLeftContainer.removeAllViews();
+		}
+	}
+	
+	public void removeRightButtons() {
+		if (mRightContainer != null) {
+			mRightContainer.removeAllViews();
+		}
+	}
+	
+	public void removeAllButtons() {
+		removeLeftButtons();
+		removeRightButtons();
+	}
+	
 	private Button createNavigationButton(CharSequence text, Drawable drawable, int buttonTextColor, View.OnClickListener l) {
 		int buttonTextColorPressed = buttonTextColor - 0x88000000;
 		ColorStateList colorStateList = ColorUtil.createColorStateList(buttonTextColor, buttonTextColorPressed);
@@ -180,11 +259,8 @@ public class NavigationBar extends RelativeLayout {
 	
 	private void initTitleView() {
 		mTitleView = new TitleView(getContext());
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT, 
-				RelativeLayout.LayoutParams.MATCH_PARENT);
-		params.addRule(RelativeLayout.CENTER_IN_PARENT);
-		addView(mTitleView, params);
+		mCenterContainer.removeAllViews();
+		mCenterContainer.addView(mTitleView);
 		setTitleTextColor(DEFAULT_BUTTON_TEXT_COLOR);
 	}
 	
@@ -212,19 +288,35 @@ public class NavigationBar extends RelativeLayout {
 	
 	private void initTabView() {
 		mTabView = new TabView(getContext());
-		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-				RelativeLayout.LayoutParams.WRAP_CONTENT, 
-				RelativeLayout.LayoutParams.WRAP_CONTENT);
-		params.addRule(RelativeLayout.CENTER_IN_PARENT);
-		addView(mTabView, params);
+		mCenterContainer.removeAllViews();
+		mCenterContainer.addView(mTabView);
 	}
 	
 	public void setTabs(String[] titles, TabView.OnTabCheckedListener l) {
 		setTabs(titles, Color.WHITE, DEFAULT_BUTTON_TEXT_COLOR, l);
 	}
 	
+	/**
+	 * Set tabs after {@link setNavigationBarStyle(NavigationBar.Style.TAB)} has been called.
+	 * 
+	 * @param titles
+	 * @param uncheckedColor
+	 * @param checkedColor
+	 * @param l
+	 */
 	public void setTabs(String[] titles, int uncheckedColor, int checkedColor, TabView.OnTabCheckedListener l) {
 		mTabView.setTabs(titles, uncheckedColor, checkedColor, l);
+	}
+	
+	/**
+	 * Set custom view to replace the title or tab.
+	 * 
+	 * @param v
+	 * 		Custom view
+	 */
+	public void setCustomView(View v) {
+		mCenterContainer.removeAllViews();
+		mCenterContainer.addView(v);
 	}
 	
 }
