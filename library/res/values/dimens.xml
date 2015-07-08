@@ -5,4 +5,5 @@
     <dimen name="navigation_bar_horizontal_padding">4dip</dimen>
     <dimen name="tab_item_horizontal_padding">16dip</dimen>
     <dimen name="tab_item_vertical_padding">4dip</dimen>
+    <dimen name="search_view_height">40dip</dimen>
 </resources>

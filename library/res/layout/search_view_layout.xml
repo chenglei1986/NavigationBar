@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/search_view_height"
+    android:paddingLeft="8dip"
+    android:paddingRight="8dip"
+    android:paddingTop="6dip"
+    android:paddingBottom="6dip" >
+    
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:text="cancel"
+        android:gravity="center"
+        android:layout_marginLeft="8dp"
+        android:layout_alignParentRight="true"
+        android:textSize="14dip"
+        android:visibility="gone"
+        android:focusable="false"
+        android:focusableInTouchMode="false" />
+    
+    <RelativeLayout
+        android:id="@+id/input_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/button"
+        android:background="@drawable/search_view_background"
+        android:gravity="center" >
+        
+        <ImageView
+            android:id="@+id/drawable_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:src="@drawable/ic_search"
+            android:scaleType="centerInside"
+            android:layout_margin="6dip" >
+        </ImageView>
+        
+        <ImageView
+            android:id="@+id/drawable_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_search"
+            android:scaleType="centerInside"
+            android:layout_margin="6dip"
+            android:layout_alignParentRight="true"
+            android:visibility="gone" />
+        
+        <TextView
+            android:id="@+id/text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="搜索"
+            android:textSize="14dip"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@id/drawable_left"
+            android:layout_toLeftOf="@id/drawable_right"
+            android:layout_centerInParent="true" />
+        
+        <EditText
+            android:id="@+id/input_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="搜索"
+            android:textSize="14dip"
+            android:gravity="center_vertical"
+            android:layout_toRightOf="@id/text_view"
+            android:layout_toLeftOf="@id/drawable_right"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+        
+    </RelativeLayout>
+
+</RelativeLayout>

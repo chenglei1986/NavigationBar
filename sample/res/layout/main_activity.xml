@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
@@ -7,11 +8,18 @@
     <org.chenglei.ios8.NavigationBar
         android:id="@+id/navigation_bar"
         android:layout_width="match_parent"
-        android:layout_height="36dip" />
+        android:layout_height="@dimen/min_navigation_bar_height" />
     
-    <org.chenglei.ios8.TabItem
-        android:id="@+id/tab_item"
-        android:layout_width="wrap_content"
+    <org.chenglei.ios8.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    
+    <Button
+        android:id="@+id/toggle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Hide NavigationBar"
+        android:layout_marginTop="30dp" />
 
 </LinearLayout>

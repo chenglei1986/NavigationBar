@@ -1,18 +1,24 @@
 package org.chenglei.ios8;
 
-import org.chenglei.ios8.drawable.PressedEffectStateListDrawable;
+import org.chenglei.drawable.PressedEffectStateListDrawable;
 import org.chenglei.navigationbar.R;
 import org.chenglei.utils.ColorUtil;
 
+import android.animation.Animator;
+import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -317,6 +323,49 @@ public class NavigationBar extends RelativeLayout {
 	public void setCustomView(View v) {
 		mCenterContainer.removeAllViews();
 		mCenterContainer.addView(v);
+	}
+	
+	public void hide() {
+		if (isShown()) {
+			setVisibility(View.GONE);
+		}
+	}
+	
+	public void show() {
+		if (!isShown()) {
+			setVisibility(View.VISIBLE);
+		}
+	}
+	
+	public boolean isShown() {
+		return getVisibility() == View.VISIBLE;
+	}
+	
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		
+		setLayoutTransition();
+	}
+	
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	private void setLayoutTransition() {
+		if (android.os.Build.VERSION.SDK_INT > 11) {
+			ViewGroup viewParent = (ViewGroup) getParent();
+			if (viewParent != null) {
+				
+				final LayoutTransition transitioner = new LayoutTransition();
+				
+				Animator appearing = ObjectAnimator.ofFloat(null, "translationY", -getHeight(), 0);
+				transitioner.setAnimator(LayoutTransition.APPEARING, appearing);
+				
+				Animator disappearing = ObjectAnimator.ofFloat(null, "translationY", 0, -getHeight());
+				transitioner.setAnimator(LayoutTransition.DISAPPEARING, disappearing);
+				
+				transitioner.setDuration(200);
+				viewParent.setLayoutTransition(transitioner);
+			}
+		}
 	}
 	
 }

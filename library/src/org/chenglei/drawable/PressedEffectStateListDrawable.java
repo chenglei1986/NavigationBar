@@ -1,4 +1,4 @@
-package org.chenglei.ios8.drawable;
+package org.chenglei.drawable;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;

@@ -4,18 +4,27 @@ import org.chenglei.ios8.NavigationBar;
 import org.chenglei.ios8.TabView;
 import org.chenglei.utils.DrawableUtil;
 
+import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements OnClickListener {
 	
 	private NavigationBar mNavigationBar;
 	
 	private static final int TEXT_COLOR = Color.parseColor("#FFFFFF");
 	
 	private static final int BG_COLOR = Color.parseColor("#25B6ED");
+	
+	private Button mToggleButton;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +48,23 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onChecked(CompoundButton tab, int position) {
-				System.out.println(position);
+				Toast.makeText(MainActivity.this, "tab " + position + " is selected", Toast.LENGTH_SHORT).show();
 			}
 			
 		});
+		
+		mToggleButton = (Button) findViewById(R.id.toggle);
+		mToggleButton.setOnClickListener(this);
+		
+	}
 
+	@Override
+	public void onClick(View v) {
+		if (mNavigationBar.isShown()) {
+			mNavigationBar.hide();
+		} else {
+			mNavigationBar.show();
+		}
 	}
 
 }
