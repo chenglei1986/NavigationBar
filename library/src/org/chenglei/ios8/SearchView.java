@@ -17,11 +17,14 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 
 public class SearchView extends LinearLayout {
 	
@@ -36,6 +39,18 @@ public class SearchView extends LinearLayout {
 	private ViewGroup mRootView;
 	
 	private int mBackgroundColor = DEFAULT_BACKGROUND_COLOR;
+	
+	private int mStyle = Style.RECT;
+	
+    private OnFocusChangeListener mOnFocusChangeListener;
+	
+	public static class Style {
+		
+		public static final int RECT = 0;
+		
+		public static final int ROUND = 1;
+		
+	}
 
 	public SearchView(Context context) {
 		this(context, null);
@@ -53,7 +68,9 @@ public class SearchView extends LinearLayout {
 		mInputLayout = (ViewGroup) findViewById(R.id.input_layout);
 		
 		this.setBackgroundColor(mBackgroundColor);
-		mInputView.setOnFocusChangeListener(mOnEditTextFocusChangeListener);
+		mTextView.setSingleLine(true);
+		mInputView.setSingleLine(true);
+		mInputView.setInputType(EditorInfo.TYPE_CLASS_TEXT);
 		
 		setLayoutTransition(mInputLayout);
 		
@@ -93,36 +110,6 @@ public class SearchView extends LinearLayout {
 			mDrawableRight.setImageDrawable(stateListDrawable);
 		}
 	}
-	
-	private android.view.View.OnFocusChangeListener mOnEditTextFocusChangeListener = new android.view.View.OnFocusChangeListener() {
-		
-		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
-			mButton.setVisibility(hasFocus ? View.VISIBLE : View.GONE);
-			mTextView.setVisibility(hasFocus ? View.GONE : View.VISIBLE);
-			mInputView.setVisibility(hasFocus ? View.VISIBLE : View.GONE);
-			mDrawableRight.setVisibility((hasFocus && mInputView.getText().toString().length() > 0) ? View.VISIBLE : View.GONE);
-			if (mOnFocusChangeListener != null) {
-				mOnFocusChangeListener.onFocusChange(v, hasFocus);
-			}
-		}
-	};
-	
-	/**
-     * Interface definition for a callback to be invoked when the focus state of
-     * a view changed.
-     */
-    public interface OnFocusChangeListener {
-        /**
-         * Called when the focus state of a view has changed.
-         *
-         * @param v The view whose state has changed.
-         * @param hasFocus The new focus state of v.
-         */
-        void onFocusChange(View v, boolean hasFocus);
-    }
-    
-    private OnFocusChangeListener mOnFocusChangeListener;
     
     public void setOnFocusChangeListener(OnFocusChangeListener l) {
     	mOnFocusChangeListener = l;
@@ -132,6 +119,10 @@ public class SearchView extends LinearLayout {
 	private void setLayoutTransition(ViewGroup view) {
     	final LayoutTransition transitioner = new LayoutTransition();
 		transitioner.setDuration(100);
+		transitioner.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0);
+		transitioner.setStartDelay(LayoutTransition.CHANGE_APPEARING, 0);
+		transitioner.setStartDelay(LayoutTransition.APPEARING, 0);
+		transitioner.setStartDelay(LayoutTransition.DISAPPEARING, 0);
 		view.setLayoutTransition(transitioner);
 	}
     
@@ -139,8 +130,7 @@ public class SearchView extends LinearLayout {
 		
 		@Override
 		public void onClick(View v) {
-			mInputView.setText("");
-			mInputView.clearFocus();
+			exitSearchMode();
 		}
 	};
 	
@@ -148,15 +138,7 @@ public class SearchView extends LinearLayout {
 
 		@Override
 		public void onClick(View v) {
-			if (!mInputView.hasFocus()) {
-				mButton.setVisibility(View.VISIBLE);
-				mInputView.setVisibility(View.VISIBLE);
-				mTextView.setVisibility(View.GONE);
-				if (mOnFocusChangeListener != null) {
-					mOnFocusChangeListener.onFocusChange(v, true);
-				}
-				mInputView.requestFocus();
-			}
+			enterSearchMode();
 		}
 	};
 	
@@ -177,5 +159,80 @@ public class SearchView extends LinearLayout {
 			mDrawableRight.setVisibility(s.length() > 0 ? View.VISIBLE : View.GONE);
 		}
 	};
+	
+	public void setImeOption(int imeOptions) {
+		mInputView.setImeOptions(imeOptions);
+	}
+	
+	public void setOnEditorActionListener(OnEditorActionListener l) {
+		mInputView.setOnEditorActionListener(l);
+	}
+	
+	public void setOnButtonClickListener(View.OnClickListener l) {
+		mButton.setOnClickListener(l);
+	}
+	
+	public void enterSearchMode() {
+		mInputView.setText("");
+		mTextView.setVisibility(View.GONE);
+		mInputView.setVisibility(View.VISIBLE);
+		mInputView.requestFocus();
+		mButton.setVisibility(View.VISIBLE);
+		postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				if (mOnFocusChangeListener != null) {
+					mOnFocusChangeListener.onFocusChange(mInputView, true);
+				}
+				showKeyboard(mInputView);
+			}
+		}, 50);
+	}
+	
+	public void exitSearchMode() {
+		mInputView.setText("");
+		mInputView.setVisibility(View.GONE);
+		mTextView.setVisibility(View.VISIBLE);
+		mButton.setVisibility(View.GONE);
+		mInputView.clearFocus();
+		postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				if (mOnFocusChangeListener != null) {
+					mOnFocusChangeListener.onFocusChange(mInputView, false);
+				}
+				hideKeyboard(mInputView);
+			}
+		}, 50);
+	}
+	
+	public void setStyle(int style) {
+		switch (style) {
+		case Style.RECT:
+			mInputLayout.setBackgroundResource(R.drawable.search_view_background_rect);
+			break;
+		case Style.ROUND:
+			mInputLayout.setBackgroundResource(R.drawable.search_view_background_round);
+			break;
+		default:
+			throw new RuntimeException("Unknown style " + style);
+		}
+	}
+	
+	public void hideKeyboard(View v) {
+		InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (imm != null && imm.isActive()) {
+			imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+		}
+	}
+	
+	public void showKeyboard(View v) {
+		InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (imm != null) {
+			imm.showSoftInput(v, InputMethodManager.RESULT_UNCHANGED_SHOWN);
+		}
+	}
 
 }

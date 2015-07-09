@@ -1,22 +1,21 @@
 package org.chenglei.demo;
 
 import org.chenglei.ios8.NavigationBar;
-import org.chenglei.ios8.TabView;
+import org.chenglei.ios8.SearchView;
 import org.chenglei.utils.DrawableUtil;
 
-import android.animation.LayoutTransition;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.LinearLayout;
+import android.view.View.OnFocusChangeListener;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
-public class MainActivity extends Activity implements OnClickListener {
+public class MainActivity extends Activity {
 	
 	private NavigationBar mNavigationBar;
 	
@@ -24,7 +23,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	private static final int BG_COLOR = Color.parseColor("#25B6ED");
 	
-	private Button mToggleButton;
+	private SearchView mSearchView;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -40,31 +39,52 @@ public class MainActivity extends Activity implements OnClickListener {
 		mNavigationBar.addRightButton("取消", null, TEXT_COLOR, null);
 		
 		mNavigationBar.setTitle("标题标题标题标题标题标题标题标题标题标题");
-		mNavigationBar.setSubTitle("标题标题标题标题标题标题标题标题标题标题标题标题");
+		mNavigationBar.setSubTitle("标题标题标题标题标题标题标题标题标题标题");
 		mNavigationBar.setTitleTextColor(TEXT_COLOR);
 		
-		mNavigationBar.setNavigationBarStyle(NavigationBar.Style.TAB);
-		mNavigationBar.setTabs(new String[] {"消息", "电话"}, BG_COLOR, TEXT_COLOR, new TabView.OnTabCheckedListener() {
-
-			@Override
-			public void onChecked(CompoundButton tab, int position) {
-				Toast.makeText(MainActivity.this, "tab " + position + " is selected", Toast.LENGTH_SHORT).show();
+//		mNavigationBar.setNavigationBarStyle(NavigationBar.Style.TAB);
+//		mNavigationBar.setTabs(new String[] {"消息", "电话"}, BG_COLOR, TEXT_COLOR, new TabView.OnTabCheckedListener() {
+//
+//			@Override
+//			public void onChecked(CompoundButton tab, int position) {
+//				Toast.makeText(MainActivity.this, "tab " + position + " is selected", Toast.LENGTH_SHORT).show();
+//			}
+//			
+//		});
+		
+		mSearchView = (SearchView) findViewById(R.id.search_view);
+		mSearchView.setImeOption(EditorInfo.IME_ACTION_SEARCH);
+		mSearchView.setOnEditorActionListener(mOnEditorActionListener);
+		
+		mSearchView.setOnFocusChangeListener(mOnFocusChangeListener);
+		mSearchView.setButtonTextColor(BG_COLOR);
+		mSearchView.setHintTextColor(0xFF8E8E93);
+		mSearchView.setButtonText("取消");
+		mSearchView.setStyle(SearchView.Style.ROUND);
+		
+	}
+	
+	private OnFocusChangeListener mOnFocusChangeListener = new OnFocusChangeListener() {
+		
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if (hasFocus && mNavigationBar.isShown()) {
+				mNavigationBar.hide();
+			} else if (!hasFocus && !mNavigationBar.isShown()) {
+				mNavigationBar.show();
 			}
-			
-		});
-		
-		mToggleButton = (Button) findViewById(R.id.toggle);
-		mToggleButton.setOnClickListener(this);
-		
-	}
-
-	@Override
-	public void onClick(View v) {
-		if (mNavigationBar.isShown()) {
-			mNavigationBar.hide();
-		} else {
-			mNavigationBar.show();
 		}
-	}
+	};
+	
+	private OnEditorActionListener mOnEditorActionListener = new OnEditorActionListener() {
+		
+		@Override
+		public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+			if (EditorInfo.IME_ACTION_SEARCH == actionId) {
+				Toast.makeText(MainActivity.this, "Search", Toast.LENGTH_SHORT).show();
+			}
+			return false;
+		}
+	};
 
 }

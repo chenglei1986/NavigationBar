@@ -362,7 +362,11 @@ public class NavigationBar extends RelativeLayout {
 				Animator disappearing = ObjectAnimator.ofFloat(null, "translationY", 0, -getHeight());
 				transitioner.setAnimator(LayoutTransition.DISAPPEARING, disappearing);
 				
-				transitioner.setDuration(200);
+				transitioner.setDuration(100);
+				transitioner.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0);
+				transitioner.setStartDelay(LayoutTransition.CHANGE_APPEARING, 0);
+				transitioner.setStartDelay(LayoutTransition.APPEARING, 0);
+				transitioner.setStartDelay(LayoutTransition.DISAPPEARING, 0);
 				viewParent.setLayoutTransition(transitioner);
 			}
 		}

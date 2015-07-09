@@ -18,36 +18,36 @@
         android:layout_marginLeft="8dp"
         android:layout_alignParentRight="true"
         android:textSize="14dip"
-        android:visibility="gone"
-        android:focusable="false"
-        android:focusableInTouchMode="false" />
+        android:visibility="gone" />
     
     <RelativeLayout
         android:id="@+id/input_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_toLeftOf="@id/button"
-        android:background="@drawable/search_view_background"
+        android:background="@drawable/search_view_background_rect"
         android:gravity="center" >
         
         <ImageView
             android:id="@+id/drawable_left"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
             android:paddingTop="2dp"
             android:src="@drawable/ic_search"
             android:scaleType="centerInside"
-            android:layout_margin="6dip" >
+            android:layout_marginRight="6dip"
+            android:layout_centerVertical="true" >
         </ImageView>
         
         <ImageView
             android:id="@+id/drawable_right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="16dip"
+            android:layout_height="16dip"
             android:src="@drawable/ic_search"
             android:scaleType="centerInside"
-            android:layout_margin="6dip"
+            android:layout_marginLeft="6dip"
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:visibility="gone" />
         
         <TextView
