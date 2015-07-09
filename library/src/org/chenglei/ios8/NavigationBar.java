@@ -153,6 +153,10 @@ public class NavigationBar extends RelativeLayout {
 		}
 	}
 	
+	public int getNavigationBarStyle() {
+		return mNavigationBarStyle;
+	}
+	
 	/**
 	 * Add a button with text and drawable on the left.
 	 * 
@@ -202,6 +206,8 @@ public class NavigationBar extends RelativeLayout {
 		}
 		
 		Button leftButton = createNavigationButton(text, drawable, buttonTextColor, l);
+		leftButton.setAllCaps(false);
+		leftButton.setPadding(0, 0, 0, 0);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT, 
 				LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -217,6 +223,8 @@ public class NavigationBar extends RelativeLayout {
 		}
 		
 		Button rightButton = createNavigationButton(text, drawable, buttonTextColor, l);
+		rightButton.setAllCaps(false);
+		rightButton.setPadding(0, 0, 0, 0);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT, 
 				LinearLayout.LayoutParams.WRAP_CONTENT);

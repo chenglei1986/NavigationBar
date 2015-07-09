@@ -97,8 +97,9 @@ class TabItem extends RadioButton {
 	}
 	
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+		// TODO Auto-generated method stub
+		super.onLayout(changed, left, top, right, bottom);
 		initLeftItemPath();
 		initRightItemPath();
 	}
@@ -127,6 +128,7 @@ class TabItem extends RadioButton {
 
 	@Override
 	public void setChecked(boolean checked) {
+		System.out.println(getText().toString());
 		if (null == mBackgroundPaint) {
 			mBackgroundPaint = new Paint();
 		}

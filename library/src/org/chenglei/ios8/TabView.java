@@ -9,7 +9,9 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 public class TabView extends RadioGroup {
@@ -99,8 +101,8 @@ public class TabView extends RadioGroup {
 	}
 	
 	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		super.onLayout(changed, l, t, r, b);
 		mBorderRect.set(1, 1, getWidth() - 1, getHeight() - 1);
 		initPaths();
 	}
@@ -129,13 +131,14 @@ public class TabView extends RadioGroup {
 	
 	private void drawDivider(Canvas canvas) {
 		int childCount = getChildCount();
-		if (childCount < 2) {
+		if (childCount < 3) {
 			return;
 		}
 		int width = getWidth();
 		int childWidth = width / childCount;
 		for (int i = 0; i < childCount - 1; i++) {
-			canvas.drawLine(childWidth * (i + 1), 0, childWidth * (i + 1), getHeight(), mDividerPaint);
+			View child = getChildAt(i);	
+			canvas.drawLine(child.getRight(), 0, child.getRight(), getHeight(), mDividerPaint);
 		}
 		
 	}

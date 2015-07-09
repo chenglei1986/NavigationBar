@@ -71,6 +71,7 @@ public class SearchView extends LinearLayout {
 		mTextView.setSingleLine(true);
 		mInputView.setSingleLine(true);
 		mInputView.setInputType(EditorInfo.TYPE_CLASS_TEXT);
+		mButton.setPadding(0, 0, 0, 0);
 		
 		setLayoutTransition(mInputLayout);
 		
@@ -94,6 +95,15 @@ public class SearchView extends LinearLayout {
 	public void setBackgroundColor(int color) {
 		super.setBackgroundColor(color);
 		mBackgroundColor = color;
+	}
+	
+	public void setText(CharSequence text) {
+		mInputView.setText(text);
+	}
+	
+	public void setHint(CharSequence text) {
+		mInputView.setHint(text);
+		mTextView.setText(text);
 	}
 	
 	public void setHintTextColor(int color) {
