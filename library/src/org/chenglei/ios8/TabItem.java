@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.RadioButton;
 
 class TabItem extends RadioButton {
@@ -50,6 +51,7 @@ class TabItem extends RadioButton {
 	}
 	
 	private void init() {
+		setGravity(Gravity.CENTER);
 		setClickable(true);
 		setTextSize(TypedValue.COMPLEX_UNIT_DIP, DEFAULT_TEXT_SIZE);
 		
@@ -98,7 +100,6 @@ class TabItem extends RadioButton {
 	
 	@Override
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-		// TODO Auto-generated method stub
 		super.onLayout(changed, left, top, right, bottom);
 		initLeftItemPath();
 		initRightItemPath();
@@ -128,7 +129,6 @@ class TabItem extends RadioButton {
 
 	@Override
 	public void setChecked(boolean checked) {
-		System.out.println(getText().toString());
 		if (null == mBackgroundPaint) {
 			mBackgroundPaint = new Paint();
 		}

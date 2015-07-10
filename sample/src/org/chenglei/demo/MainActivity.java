@@ -46,7 +46,6 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				
 				switch (mNavigationBar.getNavigationBarStyle()) {
 				case NavigationBar.Style.NORMAL:
 					
@@ -60,7 +59,7 @@ public class MainActivity extends Activity {
 						}
 						
 					});
-					
+					mNavigationBar.setTabSizeFixed(true);
 					break;
 				case NavigationBar.Style.TAB:
 					
@@ -81,22 +80,13 @@ public class MainActivity extends Activity {
 		mNavigationBar.setSubTitle("Subtitle Subtitle");
 		mNavigationBar.setTitleTextColor(TEXT_COLOR);
 		
-//		mNavigationBar.setNavigationBarStyle(NavigationBar.Style.TAB);
-//		mNavigationBar.setTabs(new String[] {"消息", "电话"}, BG_COLOR, TEXT_COLOR, new TabView.OnTabCheckedListener() {
-//
-//			@Override
-//			public void onChecked(CompoundButton tab, int position) {
-//				Toast.makeText(MainActivity.this, "tab " + position + " is selected", Toast.LENGTH_SHORT).show();
-//			}
-//			
-//		});
-		
 		mSearchView = (SearchView) findViewById(R.id.search_view);
 		mSearchView.setImeOption(EditorInfo.IME_ACTION_SEARCH);
 		mSearchView.setOnEditorActionListener(mOnEditorActionListener);
 		
 		mSearchView.setOnFocusChangeListener(mOnFocusChangeListener);
 		mSearchView.setButtonTextColor(BG_COLOR);
+		mSearchView.setHint("Search");
 		mSearchView.setHintTextColor(0xFF8E8E93);
 		mSearchView.setButtonText("Cancel");
 		mSearchView.setStyle(SearchView.Style.ROUND);

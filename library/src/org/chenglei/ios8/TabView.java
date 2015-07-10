@@ -11,7 +11,6 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 
 public class TabView extends RadioGroup {
@@ -28,6 +27,8 @@ public class TabView extends RadioGroup {
 	
 	private OnTabCheckedListener mOnTabCheckedListener;
 	private OnTabItemCheckedChangeListener mOnTabItemCheckedChangeListener;
+	
+	private boolean mIsFixedSize = true;
 	
 	public interface OnTabCheckedListener {
 		public void onChecked(CompoundButton tab, int position);
@@ -80,7 +81,6 @@ public class TabView extends RadioGroup {
 			String title = titles[i];
 			TabItem item = new TabItem(getContext());
 			item.setId(ViewUtil.generateViewId());
-			item.setText(title);
 			item.setItemColors(mItemColorUnchecked, mItemColorChecked);
 			if (0 == i) {
 				item.setPosition(TabItem.POSITION_LEFT);
@@ -93,19 +93,58 @@ public class TabView extends RadioGroup {
 			mOnTabItemCheckedChangeListener = new OnTabItemCheckedChangeListener(i);
 			item.setOnCheckedChangeListener(mOnTabItemCheckedChangeListener);
 			addView(item);
+			item.setText(title);
+		}
+	}
+
+	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+		if (mIsFixedSize) {
+			measureChild(widthMeasureSpec, heightMeasureSpec);
 		}
 	}
 	
-	public void setOnTabCheckedListener(OnTabCheckedListener l) {
-		mOnTabCheckedListener = l;
+	void measureChild(int widthMeasureSpec, int heightMeasureSpec) {
+		int itemCount = getChildCount();
+        if (itemCount <= 0) {
+        	return;
+        }
+        int maxWidth = 0;
+        int maxHeight = 0;
+        for (int i = 0; i < itemCount; i++) {
+        	TabItem tabItem = (TabItem) getChildAt(i);
+        	int width = tabItem.getMeasuredWidth();
+        	int height = tabItem.getMeasuredHeight();
+        	maxWidth = Math.max(maxWidth, width);
+        	maxHeight = Math.max(maxHeight, height);
+        }
+        setMeasuredDimension(maxWidth * itemCount, maxHeight);
 	}
 	
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		super.onLayout(changed, l, t, r, b);
+		if (!mIsFixedSize) {
+			super.onLayout(changed, l, t, r, b);
+		} else {
+			layoutHorizontal(0, 0, getWidth(), getHeight());
+		}
 		mBorderRect.set(1, 1, getWidth() - 1, getHeight() - 1);
 		initPaths();
 	}
+	
+	void layoutHorizontal(int l, int t, int r, int b) {
+        int itemCount = getChildCount();
+        if (itemCount <= 0) {
+        	return;
+        }
+        int itemWidth = (r - l) / itemCount;
+        for (int i = 0; i < itemCount; i++) {
+        	TabItem tabItem = (TabItem) getChildAt(i);
+        	tabItem.layout(l + itemWidth * i, t, l + itemWidth * (i + 1), b);
+        	tabItem.setText(tabItem.getText());
+        }
+    }
 	
 	private void initPaths() {
 		if (null == mBorderPath && getHeight() > 0) {
@@ -134,8 +173,6 @@ public class TabView extends RadioGroup {
 		if (childCount < 3) {
 			return;
 		}
-		int width = getWidth();
-		int childWidth = width / childCount;
 		for (int i = 0; i < childCount - 1; i++) {
 			View child = getChildAt(i);	
 			canvas.drawLine(child.getRight(), 0, child.getRight(), getHeight(), mDividerPaint);
@@ -158,6 +195,11 @@ public class TabView extends RadioGroup {
 			}
 		}
 		
+	}
+	
+	public void setFixedSize(boolean fixedSize) {
+		mIsFixedSize = fixedSize;
+		requestLayout();
 	}
 
 }

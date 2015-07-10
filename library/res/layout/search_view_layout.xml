@@ -8,13 +8,10 @@
     android:paddingTop="6dip"
     android:paddingBottom="6dip" >
     
-    <Button
+    <TextView
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:text="Cancel"
-        android:textAllCaps="false"
         android:gravity="center"
         android:layout_marginLeft="8dp"
         android:layout_alignParentRight="true"
@@ -56,7 +53,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:hint="Search"
             android:textSize="14dip"
             android:gravity="center_vertical"
             android:layout_toRightOf="@id/drawable_left"
@@ -68,7 +64,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:hint="Search"
             android:textSize="14dip"
             android:gravity="center_vertical"
             android:layout_toRightOf="@id/text_view"

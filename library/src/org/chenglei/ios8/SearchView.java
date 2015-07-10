@@ -1,5 +1,6 @@
 package org.chenglei.ios8;
 
+import org.chenglei.ButtonCompat;
 import org.chenglei.drawable.PressedEffectStateListDrawable;
 import org.chenglei.navigationbar.R;
 import org.chenglei.utils.ColorUtil;
@@ -34,13 +35,11 @@ public class SearchView extends LinearLayout {
 	private TextView mTextView;
 	private ImageView mDrawableLeft;
 	private ImageView mDrawableRight;
-	private Button mButton;
+	private TextView mButton;
 	private ViewGroup mInputLayout;
 	private ViewGroup mRootView;
 	
 	private int mBackgroundColor = DEFAULT_BACKGROUND_COLOR;
-	
-	private int mStyle = Style.RECT;
 	
     private OnFocusChangeListener mOnFocusChangeListener;
 	
@@ -64,7 +63,7 @@ public class SearchView extends LinearLayout {
 		mTextView = (TextView) findViewById(R.id.text_view);
 		mDrawableLeft = (ImageView) findViewById(R.id.drawable_left);
 		mDrawableRight = (ImageView) findViewById(R.id.drawable_right);
-		mButton = (Button) findViewById(R.id.button);
+		mButton = (TextView) findViewById(R.id.button);
 		mInputLayout = (ViewGroup) findViewById(R.id.input_layout);
 		
 		this.setBackgroundColor(mBackgroundColor);

@@ -1,5 +1,6 @@
 package org.chenglei.ios8;
 
+import org.chenglei.ButtonCompat;
 import org.chenglei.drawable.PressedEffectStateListDrawable;
 import org.chenglei.navigationbar.R;
 import org.chenglei.utils.ColorUtil;
@@ -65,9 +66,6 @@ public class NavigationBar extends RelativeLayout {
 		 * A TabView contains several TabItems with this style will be displayed.
 		 */
 		public static final int TAB = 1;
-		
-		//public static final int SEARCH = 2;
-		
 	}
 	
 	public NavigationBar(Context context) {
@@ -143,9 +141,7 @@ public class NavigationBar extends RelativeLayout {
 			case Style.NORMAL:
 				initTitleView();
 				break;
-//			case Style.SEARCH:
-//				initSearchView();
-//				break;
+
 			case Style.TAB:
 				initTabView();
 				break;
@@ -206,8 +202,6 @@ public class NavigationBar extends RelativeLayout {
 		}
 		
 		Button leftButton = createNavigationButton(text, drawable, buttonTextColor, l);
-		leftButton.setAllCaps(false);
-		leftButton.setPadding(0, 0, 0, 0);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT, 
 				LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -223,8 +217,6 @@ public class NavigationBar extends RelativeLayout {
 		}
 		
 		Button rightButton = createNavigationButton(text, drawable, buttonTextColor, l);
-		rightButton.setAllCaps(false);
-		rightButton.setPadding(0, 0, 0, 0);
 		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.WRAP_CONTENT, 
 				LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -254,13 +246,14 @@ public class NavigationBar extends RelativeLayout {
 		int buttonTextColorPressed = buttonTextColor - 0x88000000;
 		ColorStateList colorStateList = ColorUtil.createColorStateList(buttonTextColor, buttonTextColorPressed);
 		
-		Button button = new Button(getContext());
+		Button button = new Button(getContext(), null, 0);
 		button.setBackgroundColor(Color.TRANSPARENT);
 		button.setPadding(0, 0, 0, 0);
 		button.setText(text);
 		button.setTextSize(TypedValue.COMPLEX_UNIT_DIP, BUTTON_TEXT_SIZE);
 		button.setTextColor(colorStateList);
 		button.setGravity(Gravity.CENTER);
+		ButtonCompat.setAllCaps(button, false);
 		
 		if (drawable != null) {
 			Drawable stateListDrawable = new PressedEffectStateListDrawable(drawable, buttonTextColor, buttonTextColorPressed);
@@ -296,10 +289,6 @@ public class NavigationBar extends RelativeLayout {
 		}
 	}
 	
-	private void initSearchView() {
-		
-	}
-	
 	private void initTabView() {
 		mTabView = new TabView(getContext());
 		mCenterContainer.removeAllViews();
@@ -320,6 +309,10 @@ public class NavigationBar extends RelativeLayout {
 	 */
 	public void setTabs(String[] titles, int uncheckedColor, int checkedColor, TabView.OnTabCheckedListener l) {
 		mTabView.setTabs(titles, uncheckedColor, checkedColor, l);
+	}
+	
+	public void setTabSizeFixed(boolean fixed) {
+		mTabView.setFixedSize(fixed);
 	}
 	
 	/**
