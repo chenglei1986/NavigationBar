@@ -69,7 +69,7 @@ public class NavigationBar extends RelativeLayout {
 	}
 	
 	public NavigationBar(Context context) {
-		this(context, null, 0);
+		this(context, null);
 	}
 	
 	public NavigationBar(Context context, AttributeSet attrs) {

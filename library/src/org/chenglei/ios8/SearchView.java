@@ -1,6 +1,5 @@
 package org.chenglei.ios8;
 
-import org.chenglei.ButtonCompat;
 import org.chenglei.drawable.PressedEffectStateListDrawable;
 import org.chenglei.navigationbar.R;
 import org.chenglei.utils.ColorUtil;
@@ -20,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,7 +35,6 @@ public class SearchView extends LinearLayout {
 	private ImageView mDrawableRight;
 	private TextView mButton;
 	private ViewGroup mInputLayout;
-	private ViewGroup mRootView;
 	
 	private int mBackgroundColor = DEFAULT_BACKGROUND_COLOR;
 	
@@ -57,7 +54,7 @@ public class SearchView extends LinearLayout {
 	
 	public SearchView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		mRootView = (ViewGroup) inflate(context, R.layout.search_view_layout, this);
+		inflate(context, R.layout.search_view_layout, this);
 		
 		mInputView = (EditText) findViewById(R.id.input_view);
 		mTextView = (TextView) findViewById(R.id.text_view);

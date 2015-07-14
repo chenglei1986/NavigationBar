@@ -3,7 +3,6 @@ package org.chenglei.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
 

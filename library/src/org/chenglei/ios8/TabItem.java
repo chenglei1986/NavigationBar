@@ -2,6 +2,10 @@ package org.chenglei.ios8;
 
 import org.chenglei.navigationbar.R;
 
+import com.nineoldandroids.animation.Animator;
+import com.nineoldandroids.animation.ArgbEvaluator;
+import com.nineoldandroids.animation.ValueAnimator;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -10,6 +14,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.widget.RadioButton;
 
 class TabItem extends RadioButton {
@@ -36,9 +41,12 @@ class TabItem extends RadioButton {
 	
 	private Path mLeftItemPath;
 	private Path mRightItemPath;
+	
+	private ValueAnimator mCheckAnim;
+	private ValueAnimator mUncheckAnim;
 
 	public TabItem(Context context) {
-		this(context, null, 0);
+		this(context, null);
 	}
 	
 	public TabItem(Context context, AttributeSet attrs) {
@@ -70,6 +78,9 @@ class TabItem extends RadioButton {
 		mItemColorChecked = checkedColor;
 		mBackgroundPaint.setColor(isChecked() ? checkedColor - 0x22000000 : uncheckedColor);
 		setTextColor(isChecked() ? uncheckedColor : checkedColor);
+		
+		mCheckAnim = createColorAnim(mItemColorUnchecked, mItemColorChecked - 0x22000000, 100);
+		mUncheckAnim = createColorAnim(mItemColorChecked - 0x22000000, mItemColorUnchecked, 100);
 	}
 	
 	@Override
@@ -77,6 +88,9 @@ class TabItem extends RadioButton {
 		switch (mPosition) {
 		case POSITION_LEFT:
 			canvas.drawPath(mLeftItemPath, mBackgroundPaint);
+			break;
+		case POSITION_MIDDLE:
+			canvas.drawColor(mBackgroundPaint.getColor());
 			break;
 		case POSITION_RIGHT:
 			canvas.drawPath(mRightItemPath, mBackgroundPaint);
@@ -92,9 +106,6 @@ class TabItem extends RadioButton {
 			throw new RuntimeException("Unknown position " + position);
 		}
 		mPosition = position;
-		if (POSITION_MIDDLE == position) {
-			setBackgroundColor(isChecked() ? mItemColorChecked : mItemColorUnchecked);
-		}
 		invalidate();
 	}
 	
@@ -133,16 +144,75 @@ class TabItem extends RadioButton {
 			mBackgroundPaint = new Paint();
 		}
 		if (checked) {
-			mBackgroundPaint.setColor(mItemColorChecked - 0x22000000);
-			setTextColor(mItemColorUnchecked);
+			if (mCheckAnim != null) {
+				mCheckAnim.start();
+			} else {
+				mBackgroundPaint.setColor(mItemColorChecked - 0x22000000);
+				setTextColor(mItemColorUnchecked);
+			}
 		} else {
-			mBackgroundPaint.setColor(mItemColorUnchecked);
-			setTextColor(mItemColorChecked);
-		}
-		if (POSITION_MIDDLE == mPosition) {
-			setBackgroundColor(mBackgroundPaint.getColor());
+			if (mUncheckAnim != null) {
+				mUncheckAnim.start();
+			} else {
+				mBackgroundPaint.setColor(mItemColorUnchecked);
+				setTextColor(mItemColorChecked);
+			}
 		}
 		super.setChecked(checked);
 	}
-
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		if (!isChecked()) {
+			switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				mBackgroundPaint.setColor(mItemColorChecked - 0xDD000000);
+				invalidate();
+				break;
+				
+			case MotionEvent.ACTION_CANCEL:
+			case MotionEvent.ACTION_UP:
+				mBackgroundPaint.setColor(mItemColorUnchecked);
+				invalidate();
+				break;
+			}
+		}
+		return super.onTouchEvent(event);
+	}
+	
+	private ValueAnimator createColorAnim(final int argbForm, final int argbTo, long duration) {
+		ValueAnimator anim = ValueAnimator.ofObject(new ArgbEvaluator(), argbForm, argbTo);
+		anim.setDuration(duration);
+		anim.setStartDelay(0);
+		anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				int argb = (int) animation.getAnimatedValue();
+				mBackgroundPaint.setColor(argb);
+				invalidate();
+			}
+		});
+		anim.addListener(new ValueAnimator.AnimatorListener() {
+			
+			@Override
+			public void onAnimationStart(Animator animation) {}
+			
+			@Override
+			public void onAnimationRepeat(Animator animation) {}
+			
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				if (isChecked()) {
+					setTextColor(mItemColorUnchecked);
+				} else {
+					setTextColor(mItemColorChecked);
+				}
+			}
+			
+			@Override
+			public void onAnimationCancel(Animator animation) {}
+		});
+		return anim;
+	}
 }
