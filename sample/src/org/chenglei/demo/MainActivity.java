@@ -37,9 +37,33 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main_activity);
 		mNavigationBar = (NavigationBar) findViewById(R.id.navigation_bar);
 		mNavigationBar.setBackgroundColor(BG_COLOR);
+		mNavigationBar.setNavigationBarStyle(NavigationBar.Style.NORMAL);
+		mNavigationBar.setTitle("Title Title Title");
+		mNavigationBar.setSubTitle("Subtitle Subtitle");
+		mNavigationBar.setTitleTextColor(TEXT_COLOR);
 		
-		mNavigationBar.addLeftButton("Back", DrawableUtil.getDrawable(this, R.drawable.ic_back), TEXT_COLOR, null);
-		mNavigationBar.addLeftButton("", DrawableUtil.getDrawable(this, R.drawable.ic_close), TEXT_COLOR, null);
+		mNavigationBar.addLeftButton(
+				"Back", 
+				DrawableUtil.getDrawable(this, R.drawable.ic_back), 
+				TEXT_COLOR, 
+				new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+			}
+		});
+		mNavigationBar.addLeftButton(
+				"", 
+				DrawableUtil.getDrawable(this, R.drawable.ic_close), 
+				TEXT_COLOR, 
+				new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
 		
 		mRightButton = mNavigationBar.addRightButton("Tab", null, TEXT_COLOR, new OnClickListener() {
 			
@@ -74,11 +98,6 @@ public class MainActivity extends Activity {
 				
 			}
 		});
-		//mNavigationBar.addRightButton("", DrawableUtil.getDrawable(this, R.drawable.ic_delete), TEXT_COLOR, null);
-		
-		mNavigationBar.setTitle("Title Title Title");
-		mNavigationBar.setSubTitle("Subtitle Subtitle");
-		mNavigationBar.setTitleTextColor(TEXT_COLOR);
 		
 		mSearchView = (SearchView) findViewById(R.id.search_view);
 		mSearchView.setImeOption(EditorInfo.IME_ACTION_SEARCH);
