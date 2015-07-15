@@ -31,7 +31,6 @@ class TabItem extends RadioButton {
 	private int mItemColorUnchecked;
 	private int mItemColorChecked;
 	
-	
 	private int mPosition = POSITION_MIDDLE;
 	
 	private int mHorizontalPadding;
@@ -44,6 +43,8 @@ class TabItem extends RadioButton {
 	
 	private ValueAnimator mCheckAnim;
 	private ValueAnimator mUncheckAnim;
+	
+	private boolean mPlayAnimation = false;
 
 	public TabItem(Context context) {
 		this(context, null);
@@ -144,14 +145,14 @@ class TabItem extends RadioButton {
 			mBackgroundPaint = new Paint();
 		}
 		if (checked) {
-			if (mCheckAnim != null) {
+			if (mCheckAnim != null && mPlayAnimation) {
 				mCheckAnim.start();
 			} else {
 				mBackgroundPaint.setColor(mItemColorChecked - 0x22000000);
 				setTextColor(mItemColorUnchecked);
 			}
 		} else {
-			if (mUncheckAnim != null) {
+			if (mUncheckAnim != null && mPlayAnimation) {
 				mUncheckAnim.start();
 			} else {
 				mBackgroundPaint.setColor(mItemColorUnchecked);
@@ -174,6 +175,7 @@ class TabItem extends RadioButton {
 			case MotionEvent.ACTION_UP:
 				mBackgroundPaint.setColor(mItemColorUnchecked);
 				invalidate();
+				mPlayAnimation = true;
 				break;
 			}
 		}
