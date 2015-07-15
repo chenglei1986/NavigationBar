@@ -11,7 +11,6 @@ import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -47,6 +46,7 @@ public class NavigationBar extends RelativeLayout {
 	private LinearLayout mCenterContainer;
 	private TitleView mTitleView;
 	private TabView mTabView;
+	private View mHorizontalDivider;
 	
 	private int mMaxButtonNumLeft = MAX_BUTTON_NUM_LEFT;
 	private int mMaxButtonNumRight = MAX_BUTTON_NUM_RIGHT;
@@ -79,17 +79,13 @@ public class NavigationBar extends RelativeLayout {
 	public NavigationBar(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		
-		readAttrs(context, attrs, defStyleAttr);
 		init();
 	}
 
-	private void readAttrs(Context context, AttributeSet attrs, int defStyleAttr) {
-		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NavigationBar, defStyleAttr, 0);
-		a.recycle();
-	}
-	
 	private void init() {
-		setBackgroundColor(Color.WHITE);
+		if (null == getBackground()) {
+			setBackgroundColor(Color.WHITE);
+		}
 		mMinHeight = getContext().getResources().getDimensionPixelSize(R.dimen.min_navigation_bar_height);
 		mHorizontalPadding = getContext().getResources().getDimensionPixelSize(R.dimen.navigation_bar_horizontal_padding);
 		setMinimumHeight(mMinHeight);
@@ -97,6 +93,7 @@ public class NavigationBar extends RelativeLayout {
 		initTitleView();
 		initLeftContainer();
 		initRightContainer();
+		initDivider();
 	}
 	
 	private void initCenterContainer() {
@@ -127,6 +124,15 @@ public class NavigationBar extends RelativeLayout {
 				RelativeLayout.LayoutParams.MATCH_PARENT);
 		params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
 		addView(mRightContainer, params);
+	}
+	
+	private void initDivider() {
+		mHorizontalDivider = new View(getContext());
+		RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+				RelativeLayout.LayoutParams.WRAP_CONTENT, 
+				1);
+		params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		addView(mHorizontalDivider, params);
 	}
 	
 	/**
@@ -371,6 +377,10 @@ public class NavigationBar extends RelativeLayout {
 				viewParent.setLayoutTransition(transitioner);
 			}
 		}
+	}
+	
+	public void setDividerColor(int color) {
+		mHorizontalDivider.setBackgroundColor(color);
 	}
 	
 }
