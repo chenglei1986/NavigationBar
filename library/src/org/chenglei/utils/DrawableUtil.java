@@ -2,6 +2,7 @@ package org.chenglei.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -15,6 +16,13 @@ public class DrawableUtil {
 	public static Drawable getColoredDrawable(Context context, Drawable raw, int color) {
 		if (raw != null) {
 			DrawableCompat.setTint(DrawableCompat.wrap(raw), color);
+		}
+		return raw;
+	}
+	
+	public static Drawable newSelector(Context context, Drawable raw, ColorStateList tint) {
+		if (raw != null) {
+			DrawableCompat.setTintList(DrawableCompat.wrap(raw), tint);
 		}
 		return raw;
 	}
