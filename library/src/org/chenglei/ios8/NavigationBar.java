@@ -5,15 +5,14 @@ import org.chenglei.drawable.PressedEffectStateListDrawable;
 import org.chenglei.navigationbar.R;
 import org.chenglei.utils.ColorUtil;
 
-import android.animation.Animator;
-import android.animation.LayoutTransition;
-import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
+import com.nineoldandroids.animation.AnimatorListenerAdapter;
+import com.nineoldandroids.animation.ValueAnimator;
+import com.nineoldandroids.animation.ValueAnimator.AnimatorUpdateListener;
+
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -34,7 +33,7 @@ public class NavigationBar extends RelativeLayout {
 	private static final int DEFAULT_BUTTON_TEXT_COLOR = 0xFF007AFF;
 	private static final int MAX_BUTTON_NUM_LEFT = 3;
 	private static final int MAX_BUTTON_NUM_RIGHT = 3;
-	private static final int BUTTON_TEXT_SIZE = 15;
+	private static final int BUTTON_TEXT_SIZE = 14;
 	
 	private int mMinHeight;
 	private int mHorizontalPadding;
@@ -50,6 +49,8 @@ public class NavigationBar extends RelativeLayout {
 	
 	private int mMaxButtonNumLeft = MAX_BUTTON_NUM_LEFT;
 	private int mMaxButtonNumRight = MAX_BUTTON_NUM_RIGHT;
+	
+	private boolean mIsShown = true;
 	
 	/**
 	 * The style specifies what the NavigationBar looks like.
@@ -333,50 +334,63 @@ public class NavigationBar extends RelativeLayout {
 	}
 	
 	public void hide() {
-		if (isShown()) {
-			setVisibility(View.GONE);
-		}
+		ValueAnimator dismissAnimator = ValueAnimator.ofInt(mMinHeight, 0);
+		dismissAnimator.setDuration(300);
+		dismissAnimator.addUpdateListener(new AnimatorUpdateListener() {
+			
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				ViewGroup.LayoutParams params = getLayoutParams();
+				params.height = (int) animator.getAnimatedValue();
+				setLayoutParams(params);
+			}
+		});
+		dismissAnimator.addListener(new AnimatorListenerAdapter() {
+
+			@Override
+			public void onAnimationCancel(com.nineoldandroids.animation.Animator animation) {
+				mIsShown = false;
+			}
+
+			@Override
+			public void onAnimationEnd(com.nineoldandroids.animation.Animator animation) {
+				mIsShown = false;
+			}
+			
+		});
+		dismissAnimator.start();
 	}
 	
 	public void show() {
-		if (!isShown()) {
-			setVisibility(View.VISIBLE);
-		}
+		ValueAnimator appearAnimator = ValueAnimator.ofInt(0, mMinHeight);
+		appearAnimator.setDuration(200);
+		appearAnimator.addUpdateListener(new AnimatorUpdateListener() {
+			
+			@Override
+			public void onAnimationUpdate(ValueAnimator animator) {
+				ViewGroup.LayoutParams params = getLayoutParams();
+				params.height = (int) animator.getAnimatedValue();
+				setLayoutParams(params);
+			}
+		});
+		appearAnimator.addListener(new AnimatorListenerAdapter() {
+
+			@Override
+			public void onAnimationCancel(com.nineoldandroids.animation.Animator animation) {
+				mIsShown = true;
+			}
+
+			@Override
+			public void onAnimationEnd(com.nineoldandroids.animation.Animator animation) {
+				mIsShown = true;
+			}
+			
+		});
+		appearAnimator.start();
 	}
 	
 	public boolean isShown() {
-		return getVisibility() == View.VISIBLE;
-	}
-	
-	@Override
-	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-		
-		setLayoutTransition();
-	}
-	
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	private void setLayoutTransition() {
-		if (android.os.Build.VERSION.SDK_INT > 11) {
-			ViewGroup viewParent = (ViewGroup) getParent();
-			if (viewParent != null) {
-				
-				final LayoutTransition transitioner = new LayoutTransition();
-				
-				Animator appearing = ObjectAnimator.ofFloat(null, "translationY", -getHeight(), 0);
-				transitioner.setAnimator(LayoutTransition.APPEARING, appearing);
-				
-				Animator disappearing = ObjectAnimator.ofFloat(null, "translationY", 0, -getHeight());
-				transitioner.setAnimator(LayoutTransition.DISAPPEARING, disappearing);
-				
-				transitioner.setDuration(100);
-				transitioner.setStartDelay(LayoutTransition.CHANGE_DISAPPEARING, 0);
-				transitioner.setStartDelay(LayoutTransition.CHANGE_APPEARING, 0);
-				transitioner.setStartDelay(LayoutTransition.APPEARING, 0);
-				transitioner.setStartDelay(LayoutTransition.DISAPPEARING, 0);
-				viewParent.setLayoutTransition(transitioner);
-			}
-		}
+		return mIsShown;
 	}
 	
 	public void setDividerColor(int color) {
