@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>NavigationBarSample</name>
-	<comment></comment>
-	<projects>
-	</projects>
-	<buildSpec>
+    <name>NavigationBarSample</name>
+    <comment></comment>
+    <projects>
+    </projects>
+    <buildSpec>
 		<buildCommand>
 			<name>com.android.ide.eclipse.adt.ResourceManagerBuilder</name>
 			<arguments>
@@ -25,9 +25,9 @@
 			<arguments>
 			</arguments>
 		</buildCommand>
-	</buildSpec>
-	<natures>
+    </buildSpec>
+    <natures>
 		<nature>com.android.ide.eclipse.adt.AndroidNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-	</natures>
+    </natures>
 </projectDescription>

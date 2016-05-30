@@ -17,4 +17,46 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <!-- Activity theme. -->
+    <style name="Normal" parent="AppTheme">
+        <item name="navigationBar">@style/NavigationBarNomal</item>
+    </style>
+
+    <style name="RoundRectTab" parent="AppTheme">
+        <item name="navigationBar">@style/NavigationBarWithRoundRectTab</item>
+    </style>
+
+    <style name="RoundTab" parent="AppTheme">
+        <item name="navigationBar">@style/NavigationBarWithRoundTab</item>
+    </style>
+
+    <style name="CustomTab" parent="AppTheme">
+        <item name="navigationBar">@style/NavigationBarWithCustomTab</item>
+    </style>
+    <!-- End. -->
+
+    <!-- NavigationBar theme. -->
+    <style name="NavigationBarNomal" parent="NavigationBarDark">
+        <item name="type">normal</item>
+    </style>
+
+    <style name="NavigationBarWithRoundRectTab" parent="NavigationBarDark">
+        <item name="type">tab</item>
+    </style>
+
+    <style name="NavigationBarWithRoundTab" parent="NavigationBarDark">
+        <item name="type">tab</item>
+        <item name="nv_tabFirstBackground">@drawable/round_tab_first</item>
+        <item name="nv_tabLastBackground">@drawable/round_tab_last</item>
+    </style>
+
+    <style name="NavigationBarWithCustomTab" parent="NavigationBarDark">
+        <item name="type">tab</item>
+        <item name="nv_tabFirstBackground">@drawable/lined_tab</item>
+        <item name="nv_tabMiddleBackground">@drawable/lined_tab</item>
+        <item name="nv_tabLastBackground">@drawable/lined_tab</item>
+        <item name="nv_tabTextColor">@color/line_tab_text_color</item>
+    </style>
+    <!-- End. -->
+
 </resources>

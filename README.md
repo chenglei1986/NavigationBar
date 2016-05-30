@@ -33,10 +33,10 @@ mNavigationBar.addLeftButton(
 		TEXT_COLOR, 
 		new OnClickListener() {
 			
-	@Override
-	public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 				
-	}
+    }
 });
 
 mNavigationBar.addLeftButton(
@@ -45,18 +45,18 @@ mNavigationBar.addLeftButton(
 		TEXT_COLOR, 
 		new OnClickListener() {
 			
-	@Override
-	public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 				
-	}
+    }
 });
 		
 mRightButton = mNavigationBar.addRightButton("Tab", null, TEXT_COLOR, new OnClickListener() {
 			
-	@Override
-	public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 			
-	}
+    }
 });
 ```
 
@@ -64,10 +64,10 @@ mRightButton = mNavigationBar.addRightButton("Tab", null, TEXT_COLOR, new OnClic
 mNavigationBar.setNavigationBarStyle(NavigationBar.Style.TAB);
 mNavigationBar.setTabs(new String[] {"MSG", "TEL"}, BG_COLOR, TEXT_COLOR, new TabView.OnTabCheckedListener() {
 			
-	@Override
-	public void onChecked(CompoundButton tab, int position) {
+    @Override
+    public void onChecked(CompoundButton tab, int position) {
 		Toast.makeText(MainActivity.this, "tab " + position + " is selected", Toast.LENGTH_SHORT).show();
-	}
+    }
 });
 mNavigationBar.setTabSizeFixed(true);
 ```
@@ -77,20 +77,20 @@ mSearchView = (SearchView) findViewById(R.id.search_view);
 mSearchView.setImeOption(EditorInfo.IME_ACTION_SEARCH);
 mSearchView.setOnEditorActionListener(new OnEditorActionListener() {
 			
-	@Override
-	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		// TODO Auto-generated method stub
 		return false;
-	}
+    }
 });
 		
 mSearchView.setOnFocusChangeListener(new OnFocusChangeListener() {
 			
-	@Override
-	public void onFocusChange(View v, boolean hasFocus) {
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
 		// TODO Auto-generated method stub
 				
-	}
+    }
 });
 mSearchView.setButtonTextColor(BG_COLOR);
 mSearchView.setHint("Search");

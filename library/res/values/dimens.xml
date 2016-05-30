@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <dimen name="min_navigation_bar_height">36dip</dimen>
+    <dimen name="min_navigation_bar_height">44dip</dimen>
     <dimen name="navigation_bar_horizontal_padding">4dip</dimen>
     <dimen name="tab_item_horizontal_padding">16dip</dimen>
     <dimen name="tab_item_vertical_padding">4dip</dimen>
+    <dimen name="tab_view_vertical_padding">6dip</dimen>
     <dimen name="search_view_height">40dip</dimen>
+    <dimen name="menu_item_padding">4dip</dimen>
+
+    <dimen name="titleSize">16sp</dimen>
+    <dimen name="subtitleSize">10sp</dimen>
+    <dimen name="buttonTextSize">14sp</dimen>
 </resources>

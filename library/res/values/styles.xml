@@ -1,20 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
-    <style name="AppBaseTheme" parent="android:Theme.Light">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+    <!--NavigationBar-->
+    <style name="NavigationBarBase">
+        <item name="type">normal</item>
+        <item name="android:background">@color/nv_white</item>
+        <item name="buttonTextColor">@color/nv_black</item>
+        <item name="buttonTextSize">@dimen/buttonTextSize</item>
+        <item name="nv_titleColor">@color/titleColor</item>
+        <item name="nv_titleSize">@dimen/titleSize</item>
+        <item name="nv_subtitleColor">@color/titleColor</item>
+        <item name="nv_subtitleSize">@dimen/subtitleSize</item>
+
+        <item name="nv_tabFirstBackground">@drawable/round_rect_tab_first</item>
+        <item name="nv_tabMiddleBackground">@drawable/tab_middle</item>
+        <item name="nv_tabLastBackground">@drawable/round_rect_tab_last</item>
+        <item name="nv_tabTextColor">@color/tab_text_color</item>
     </style>
 
-    <!-- Application theme. -->
-    <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    <style name="NavigationBarLight" parent="NavigationBarBase"></style>
+
+    <style name="NavigationBarDark" parent="NavigationBarBase">
+        <item name="android:background">@color/nv_blue</item>
+        <item name="buttonTextColor">@color/nv_white</item>
+        <item name="nv_titleColor">@color/titleColorLight</item>
+        <item name="nv_subtitleColor">@color/titleColorLight</item>
     </style>
 
 </resources>

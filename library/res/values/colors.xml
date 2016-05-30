@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="titleColor">#2B2B2B</color>
+    <color name="titleColorLight">#FFFFFF</color>
+    <color name="nv_white">#FFFFFF</color>
+    <color name="nv_gray">#DDDDDD</color>
+    <color name="nv_blue">#25B6ED</color>
+    <color name="nv_black">#2B2B2B</color>
+    <color name="nv_transparent">#00000000</color>
+</resources>

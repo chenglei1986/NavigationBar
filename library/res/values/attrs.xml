@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="navigationBar" format="reference"/>
+
     <declare-styleable name="NavigationBar">
-        
+        <attr name="type" format="enum">
+            <enum name="normal" value="0"/>
+            <enum name="tab" value="1"/>
+        </attr>
+
+        <attr name="buttonTextColor" format="reference|color"/>
+        <attr name="buttonTextSize" format="reference|dimension"/>
+
+        <attr name="nv_titleText" format="reference|string"/>
+        <attr name="nv_titleSize" format="reference|dimension"/>
+        <attr name="nv_titleColor" format="reference|color"/>
+        <attr name="nv_subtitleText" format="reference|string"/>
+        <attr name="nv_subtitleSize" format="reference|dimension"/>
+        <attr name="nv_subtitleColor" format="reference|color"/>
+
+        <attr name="nv_tabFirstBackground" format="reference"/>
+        <attr name="nv_tabMiddleBackground" format="reference"/>
+        <attr name="nv_tabLastBackground" format="reference"/>
+        <attr name="nv_tabTextColor" format="reference|color"/>
     </declare-styleable>
 </resources>
