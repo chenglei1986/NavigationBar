@@ -88,10 +88,10 @@ public class NavigationBar extends RelativeLayout implements View.OnClickListene
         super(context, attrs, defStyleAttr);
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.NavigationBar, defStyleAttr, 0);
-        int ordinal = a.getInt(R.styleable.NavigationBar_type, Type.NORMAL.ordinal());
+        int ordinal = a.getInt(R.styleable.NavigationBar_nv_type, Type.NORMAL.ordinal());
         mNavigationBarType = Type.values()[ordinal];
-        mButtonTextColor = a.getColor(R.styleable.NavigationBar_buttonTextColor, ContextCompat.getColor(context, R.color.nv_black));
-        mButtonTextSize = a.getDimension(R.styleable.NavigationBar_buttonTextSize, context.getResources().getDimension(R.dimen.buttonTextSize));
+        mButtonTextColor = a.getColor(R.styleable.NavigationBar_nv_buttonTextColor, ContextCompat.getColor(context, R.color.nv_black));
+        mButtonTextSize = a.getDimension(R.styleable.NavigationBar_nv_buttonTextSize, context.getResources().getDimension(R.dimen.buttonTextSize));
         mTitleText = a.getString(R.styleable.NavigationBar_nv_titleText);
         mSubtitleText = a.getString(R.styleable.NavigationBar_nv_subtitleText);
         mTitleTextSize = a.getDimension(R.styleable.NavigationBar_nv_titleSize, context.getResources().getDimension(R.dimen.titleSize));

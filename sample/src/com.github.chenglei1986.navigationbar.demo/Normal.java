@@ -1,7 +1,6 @@
 package com.github.chenglei1986.navigationbar.demo;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;

@@ -1,100 +1,114 @@
 # NavigationBar
 
-![image](https://github.com/chenglei1986/NavigationBar/blob/master/gif/screen_capture.gif)
+Normal
+![normal](screenshots/normal.png)
+
+Round Tab
+![round_tab](screenshots/round_tab.png)
+
+Round Rect Tab
+![round_rect_tab](screenshots/round_rect_tab.png)
+
+Custom Tab
+![custom_tab](screenshots/custom_tab.png)
 
 # Usage
 
 ### In your layout
 ```xml
-<org.chenglei.ios8.NavigationBar
-    android:id="@+id/navigation_bar"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/min_navigation_bar_height" />
-    
-<org.chenglei.ios8.SearchView
-    android:id="@+id/search_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" />
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.github.chenglei1986.navigationbar.NavigationBar
+        android:id="@+id/navigation_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/min_navigation_bar_height"/>
+
+</LinearLayout>
 ```
 ### In your activity
 
 ```java
-mNavigationBar = (NavigationBar) findViewById(R.id.navigation_bar);
-mNavigationBar.setBackgroundColor(BG_COLOR);
-
-mNavigationBar.setNavigationBarStyle(NavigationBar.Style.NORMAL);
-mNavigationBar.setTitle("Title Title Title");
-mNavigationBar.setSubTitle("Subtitle Subtitle");
-mNavigationBar.setTitleTextColor(TEXT_COLOR);
-
-mNavigationBar.addLeftButton(
-		"Back", 
-		DrawableUtil.getDrawable(this, R.drawable.ic_back), 
-		TEXT_COLOR, 
-		new OnClickListener() {
-			
-    @Override
-    public void onClick(View v) {
-				
-    }
-});
-
-mNavigationBar.addLeftButton(
-		"", 
-		DrawableUtil.getDrawable(this, R.drawable.ic_close), 
-		TEXT_COLOR, 
-		new OnClickListener() {
-			
-    @Override
-    public void onClick(View v) {
-				
-    }
-});
-		
-mRightButton = mNavigationBar.addRightButton("Tab", null, TEXT_COLOR, new OnClickListener() {
-			
-    @Override
-    public void onClick(View v) {
-			
-    }
-});
+mNavigationBar.setDisplayBackButton(true)
+    .setBackButtonImageResource(R.drawable.ic_chevron_left_white_24dp)
+    .setBackButtonText("Back")
+    .setOnBackButtonClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            onBackPressed();
+        }
+    })
+    .setTitle("Your title text")
+    .addItem(0, "Settings", ActivityCompat.getDrawable(this, R.drawable.ic_settings_white_24dp))
+    .addItem(1, "More", ActivityCompat.getDrawable(this, R.drawable.ic_more_vert_white_24dp))
+    .setOnMenuItemClickListener(new NavigationBar.OnMenuItemClickListener() {
+        @Override
+        public void onMenuItemClick(int id) {
+            // Do something
+        }
+    });
 ```
 
-```java
-mNavigationBar.setNavigationBarStyle(NavigationBar.Style.TAB);
-mNavigationBar.setTabs(new String[] {"MSG", "TEL"}, BG_COLOR, TEXT_COLOR, new TabView.OnTabCheckedListener() {
-			
-    @Override
-    public void onChecked(CompoundButton tab, int position) {
-		Toast.makeText(MainActivity.this, "tab " + position + " is selected", Toast.LENGTH_SHORT).show();
-    }
-});
-mNavigationBar.setTabSizeFixed(true);
+### In your AndroidManifest.xml
+
+```xml
+<activity
+    android:name=".ActivityName"
+    android:label="@string/label"
+    android:theme="@style/Normal">
+</activity>
 ```
 
+### Theming
+
+```xml
+<!-- Activity theme. -->
+<style name="NavigationBar" parent="AppTheme">
+    <item name="navigationBar">@style/NavigationBarStyle</item>
+</style>
+
+<!-- NavigationBar theme. -->
+<style name="NavigationBarStyle">
+    <item name="type">normal</item>
+    <item name="android:background">@color/nv_blue</item>
+    <item name="buttonTextColor">@color/nv_white</item>
+    <item name="buttonTextSize">@dimen/buttonTextSize</item>
+    <item name="nv_titleColor">@color/titleColor</item>
+    <item name="nv_titleSize">@dimen/titleSize</item>
+    <item name="nv_subtitleColor">@color/titleColor</item>
+    <item name="nv_subtitleSize">@dimen/subtitleSize</item>
+
+    <item name="nv_tabFirstBackground">@drawable/round_rect_tab_first</item>
+    <item name="nv_tabMiddleBackground">@drawable/tab_middle</item>
+    <item name="nv_tabLastBackground">@drawable/round_rect_tab_last</item>
+    <item name="nv_tabTextColor">@color/tab_text_color</item>
+</style>
+```
+
+### Attributes
+
+|attr                          |description                                                                  |
+|------------------------------|-----------------------------------------------------------------------------|
+|nv_buttonTextColor            |Button text color on both sides of the `NavigationBar`                       |
+|nv_buttonTextSize             |Button text size on both sides of the `NavigationBar`                        |
+|nv_titleColor                 |Title text color                                                             |
+|nv_titleSize                  |Title text size                                                              |
+|nv_titleText                  |Title text                                                                   |
+|nv_subtitleColor              |Subtitle text color                                                          |
+|nv_subtitleSize               |Subtitle text size                                                           |
+|nv_subtitleText               |Subtitle text                                                                |
+|nv_tabFirstBackground         |Background drawable of first tab, should be selector                         |
+|nv_tabMiddleBackground        |Background drawable of tabs except first or last, should be selector         |
+|nv_tabLastBackground          |Background drawable of last tab, should be selector                          |
+|nv_tabTextColor               |Text color of the tabs                                                       |
+|nv_type                       |Type of the `NavigationBar`, should be `normal` or `tab`, default is `normal`|
+
+### Bind with `ViewPager`
+
 ```java
-mSearchView = (SearchView) findViewById(R.id.search_view);
-mSearchView.setImeOption(EditorInfo.IME_ACTION_SEARCH);
-mSearchView.setOnEditorActionListener(new OnEditorActionListener() {
-			
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		// TODO Auto-generated method stub
-		return false;
-    }
-});
-		
-mSearchView.setOnFocusChangeListener(new OnFocusChangeListener() {
-			
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-		// TODO Auto-generated method stub
-				
-    }
-});
-mSearchView.setButtonTextColor(BG_COLOR);
-mSearchView.setHint("Search");
-mSearchView.setHintTextColor(0xFF8E8E93);
-mSearchView.setButtonText("Cancel");
-mSearchView.setStyle(SearchView.Style.ROUND);
+mNavigationBar.bindViewPager(mViewPager);
 ```

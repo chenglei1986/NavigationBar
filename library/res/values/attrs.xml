@@ -3,13 +3,13 @@
     <attr name="navigationBar" format="reference"/>
 
     <declare-styleable name="NavigationBar">
-        <attr name="type" format="enum">
+        <attr name="nv_type" format="enum">
             <enum name="normal" value="0"/>
             <enum name="tab" value="1"/>
         </attr>
 
-        <attr name="buttonTextColor" format="reference|color"/>
-        <attr name="buttonTextSize" format="reference|dimension"/>
+        <attr name="nv_buttonTextColor" format="reference|color"/>
+        <attr name="nv_buttonTextSize" format="reference|dimension"/>
 
         <attr name="nv_titleText" format="reference|string"/>
         <attr name="nv_titleSize" format="reference|dimension"/>
