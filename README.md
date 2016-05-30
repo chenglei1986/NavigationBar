@@ -14,6 +14,43 @@ Custom Tab
 
 # Usage
 
+### Gradle
+Step 1. Add it in your root build.gradle at the end of repositories:
+
+```groovy
+allprojects {
+	repositories {
+		...
+		maven { url "https://jitpack.io" }
+	}
+}
+```
+
+Step 2. Add the dependency
+
+```groovy
+dependencies {
+    compile 'com.github.chenglei1986:NavigationBar:-SNAPSHOT'
+}
+```
+
+### Maven
+```groovy
+<repositories>
+	<repository>
+	    <id>jitpack.io</id>
+	    <url>https://jitpack.io</url>
+	</repository>
+</repositories>
+```
+```groovy
+<dependency>
+    <groupId>com.github.chenglei1986</groupId>
+    <artifactId>NavigationBar</artifactId>
+    <version>-SNAPSHOT</version>
+</dependency>
+```
+
 ### In your layout
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
