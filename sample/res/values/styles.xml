@@ -37,21 +37,21 @@
 
     <!-- NavigationBar theme. -->
     <style name="NavigationBarNomal" parent="NavigationBarDark">
-        <item name="type">normal</item>
+        <item name="nv_type">normal</item>
     </style>
 
     <style name="NavigationBarWithRoundRectTab" parent="NavigationBarDark">
-        <item name="type">tab</item>
+        <item name="nv_type">tab</item>
     </style>
 
     <style name="NavigationBarWithRoundTab" parent="NavigationBarDark">
-        <item name="type">tab</item>
+        <item name="nv_type">tab</item>
         <item name="nv_tabFirstBackground">@drawable/round_tab_first</item>
         <item name="nv_tabLastBackground">@drawable/round_tab_last</item>
     </style>
 
     <style name="NavigationBarWithCustomTab" parent="NavigationBarDark">
-        <item name="type">tab</item>
+        <item name="nv_type">tab</item>
         <item name="nv_tabFirstBackground">@drawable/lined_tab</item>
         <item name="nv_tabMiddleBackground">@drawable/lined_tab</item>
         <item name="nv_tabLastBackground">@drawable/lined_tab</item>
