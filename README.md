@@ -110,10 +110,10 @@ mNavigationBar.setDisplayBackButton(true)
 
 <!-- NavigationBar theme. -->
 <style name="NavigationBarStyle">
-    <item name="type">normal</item>
+    <item name="nv_type">normal</item>
     <item name="android:background">@color/nv_blue</item>
-    <item name="buttonTextColor">@color/nv_white</item>
-    <item name="buttonTextSize">@dimen/buttonTextSize</item>
+    <item name="nv_buttonTextColor">@color/nv_white</item>
+    <item name="nv_buttonTextSize">@dimen/buttonTextSize</item>
     <item name="nv_titleColor">@color/titleColor</item>
     <item name="nv_titleSize">@dimen/titleSize</item>
     <item name="nv_subtitleColor">@color/titleColor</item>
