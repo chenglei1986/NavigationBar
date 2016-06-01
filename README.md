@@ -96,7 +96,7 @@ mNavigationBar.setDisplayBackButton(true)
 <activity
     android:name=".ActivityName"
     android:label="@string/label"
-    android:theme="@style/Normal">
+    android:theme="@style/NavigationBar">
 </activity>
 ```
 
