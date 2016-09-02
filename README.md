@@ -152,4 +152,4 @@ mNavigationBar.bindViewPager(mViewPager);
 
 # Licence
 
-NavigationBar is released under the MIT license. See [LICENSE](https://raw.githubusercontent.com/wangjwchn/AImage/master/LICENSE) for details.
+NavigationBar is released under the MIT license. See [LICENSE](/LICENSE) for details.
